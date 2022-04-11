@@ -1,38 +1,45 @@
 from gun import Gun
 
-class Ammo(Gun):
+class Ammo:
     
-    """ g_type = gun type
-        dmg = damage
-        cbr = caliber
-    """
+    AMMO_TYPES = {
+        1: 'HE_cartridge',
+        2: 'HEAT_cartridge',
+        3: 'AP_cartridge',
+    }
 
-    def __init__(self, g_type):
-        Gun()
-        self.g_type = g_type
+    def __init__(self, gun: Gun, ammo_type):
+        self.gun = gun
+        self.ammo_type = self.AMMO_TYPES[ammo_type]
 
-    g_type = ('HE_cartridge',
-           'HEAT_cartridge',
-           'AP_cartridge')
-    
         
     def get_damage(self):
-        dmg = self.cbr * 3
+        dmg = self.gun.calibr * 3
         return dmg
 
     def get_penetration(self):
-        dmgarmor = self.cbr
-        return dmgarmor
+        return self.gun.calibr
+
 
 class HECartridge(Ammo):
-    super().get_damage
+    def __init__(self, gun: Gun, ammo_type):
+        super().__init__(gun, ammo_type)
+
 
 class HEATCartridge(Ammo):
-    super().get_damage * 0.6
+    def __init__(self, gun: Gun, ammo_type):
+        super().__init__(gun, ammo_type)
+    
+    def get_damage(self):
+        return super().get_damage() * 0.6
+
 
 class APCartridge(Ammo):
-    super().get_damage * 0.3
-
+    def __init__(self, gun: Gun, ammo_type):
+        super().__init__(gun, ammo_type)
+    
+    def get_damage(self):
+        return super().get_damage() * 0.3
 
     
 
