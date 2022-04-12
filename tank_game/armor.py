@@ -1,4 +1,4 @@
-from ammo import Ammo
+from tank_game.ammo import Ammo, HEATCartridge, HECartridge
 from gun import Gun
 
 class Armor:

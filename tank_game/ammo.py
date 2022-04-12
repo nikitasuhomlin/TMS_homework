@@ -1,42 +1,43 @@
-from gun import Gun
+from numbers import Number
+from tank_game.gun import Gun
+
 
 class Ammo:
     
-    AMMO_TYPES = {
-        1: 'HE_cartridge',
-        2: 'HEAT_cartridge',
-        3: 'AP_cartridge',
-    }
 
-    def __init__(self, gun: Gun, ammo_type):
+    def __init__(self, gun: Gun, ammo_type:str):
         self.gun = gun
-        self.ammo_type = self.AMMO_TYPES[ammo_type]
+        self.ammo_type = ammo_type
 
         
     def get_damage(self):
-        dmg = self.gun.calibr * 3
+        dmg = self.gun.caliber * 3
         return dmg
 
     def get_penetration(self):
-        return self.gun.calibr
+        return self.gun.caliber
 
 
 class HECartridge(Ammo):
-    def __init__(self, gun: Gun, ammo_type):
-        super().__init__(gun, ammo_type)
+    def __init__(self, gun: Gun):
+        super().__init__(gun, 'фугасный')
+
+    def get_damage(self):
+        return super().get_damage()
+
 
 
 class HEATCartridge(Ammo):
-    def __init__(self, gun: Gun, ammo_type):
-        super().__init__(gun, ammo_type)
+    def __init__(self, gun: Gun):
+        super().__init__(gun, 'кумулятивный')
     
     def get_damage(self):
         return super().get_damage() * 0.6
 
 
 class APCartridge(Ammo):
-    def __init__(self, gun: Gun, ammo_type):
-        super().__init__(gun, ammo_type)
+    def __init__(self, gun: Gun):
+        super().__init__(gun, 'подкалиберный')
     
     def get_damage(self):
         return super().get_damage() * 0.3
