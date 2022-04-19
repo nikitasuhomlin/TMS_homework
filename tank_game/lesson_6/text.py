@@ -1,5 +1,6 @@
 from pydoc import text
 
+
 with open ('text.txt', 'w') as f:
     f.write('I am number one\n')
     f.write('I am number two\n')
