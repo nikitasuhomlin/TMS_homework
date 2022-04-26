@@ -1,0 +1,96 @@
+CREATE TABLE pupils(
+    id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL
+);
+
+
+
+INSERT INTO pupils(
+    first_name, last_name
+) VALUES ("Nikita", "Suhomlin");
+
+INSERT INTO pupils(
+    first_name, last_name
+) VALUES ("Alex", "Sokolov");
+
+INSERT INTO pupils(
+    first_name, last_name
+) VALUES ("Denis", "Pupkin");
+
+
+
+CREATE TABLE desks(
+    id INTEGER PRIMARY KEY,
+    number TEXT NOT NULL,
+    pupil_id INTEGER UNIQUE NOT NULL,
+    FOREIGN KEY (pupil_id) REFERENCES pupils(id)
+);
+
+
+INSERT INTO desks(
+    number, pupil_id
+) VALUES ("100", "1");
+
+
+INSERT INTO desks(
+    number, pupil_id
+) VALUES ("101", "2");
+
+
+INSERT INTO desks(
+    number, pupil_id
+) VALUES ("102", "3");
+
+SELECT * FROM pupils, desks;
+
+
+mbp-nikita:~ nikitasuhomlin$ sqlite3 school.db
+SQLite version 3.28.0 2019-04-15 14:49:49
+Enter ".help" for usage hints.
+sqlite> CREATE TABLE pupils(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     first_name TEXT NOT NULL,
+   ...>     last_name TEXT NOT NULL
+   ...> );
+sqlite> INSERT INTO pupils(
+   ...>     first_name, last_name
+   ...> ) VALUES ("Nikita", "Suhomlin");
+sqlite> INSERT INTO pupils(
+   ...>     first_name, last_name
+   ...> ) VALUES ("Alex", "Sokolov");
+sqlite> INSERT INTO pupils(
+   ...>     first_name, last_name
+   ...> ) VALUES ("Denis", "Pupkin");
+sqlite> CREATE TABLE desks(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     number TEXT NOT NULL,
+   ...>     pupil_id INTEGER UNIQUE NOT NULL,
+   ...>     FOREIGN KEY (pupil_id) REFERENCES pupils(id)
+   ...> );
+sqlite> INSERT INTO desks(
+   ...>     number, pupil_id
+   ...> ) VALUES ("100", "1");
+sqlite> INSERT INTO desks(
+   ...>     number, pupil_id
+   ...> ) VALUES ("101", "2");
+sqlite> SELECT * from pupils, desks;
+1|Nikita|Suhomlin|1|100|1
+1|Nikita|Suhomlin|2|101|2
+2|Alex|Sokolov|1|100|1
+2|Alex|Sokolov|2|101|2
+3|Denis|Pupkin|1|100|1
+3|Denis|Pupkin|2|101|2
+sqlite> .header on
+sqlite> .mode column
+sqlite> SELECT * from pupils, desks;
+id          first_name  last_name   id          number      pupil_id  
+----------  ----------  ----------  ----------  ----------  ----------
+1           Nikita      Suhomlin    1           100         1         
+1           Nikita      Suhomlin    2           101         2         
+2           Alex        Sokolov     1           100         1         
+2           Alex        Sokolov     2           101         2         
+3           Denis       Pupkin      1           100         1         
+3           Denis       Pupkin      2           101         2         
+
+
