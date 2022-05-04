@@ -1,0 +1,479 @@
+CREATE TABLE administrators(
+    id INTEGER PRIMARY KEY,
+    login TEXT NOT NULL,
+    password TEXT NOT NULL
+);
+
+
+
+
+
+CREATE TABLE readers(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    passport TEXT NOT NULL,
+    address TEXT NOT NULL,
+    phone INTEGER NULL
+);
+
+
+
+
+
+
+CREATE TABLE rooms(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+
+
+
+
+
+CREATE TABLE librarians(
+    id INTEGER PRIMARY KEY,
+    login TEXT NOT NULL,
+    password TEXT NOT NULL
+);
+
+
+
+
+
+CREATE TABLE books(
+    id INTEGER PRIMARY KEY,
+    author TEXT NOT NULL,
+    name TEXT NOT NULL,
+    publisher TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    isbn INTEGER NULL
+);
+
+
+
+
+
+CREATE TABLE librarian_rooms(
+    id_room INTEGER NOT NULL,
+    id_librarian INTEGER NOT NULL,
+    FOREIGN KEY (id_room) REFERENCES rooms(id),
+    FOREIGN KEY (id_librarian) REFERENCES librarians(id)
+);
+
+
+
+
+CREATE TABLE book_cards(
+    id INTEGER PRIMARY KEY,
+    id_reader INTEGER NOT NULL,
+    id_book INTEGER NOT NULL,
+    id_librarian INTEGER NOT NULL,
+    time DATETIME NOT NULL,
+    period DATETIME NULL,
+    FOREIGN KEY (id_reader) REFERENCES readers(id),
+    FOREIGN KEY (id_book) REFERENCES books(id),
+    FOREIGN KEY (id_librarian) REFERENCES librarians(id)
+);
+
+
+
+
+
+
+
+CREATE TABLE issue_cards(
+    id INTEGER PRIMARY KEY,
+    id_reader INTEGER NOT NULL,
+    id_book INTEGER NOT NULL,
+    time DATETIME NOT NULL,
+    period DATETIME NOT NULL,
+    issue_cardscol NULL,
+    FOREIGN KEY (id_reader) REFERENCES readers(id),
+    FOREIGN KEY (id_book) REFERENCES books(id)
+);
+
+
+
+
+
+
+
+
+CREATE TABLE book_places(
+    id_book INTEGER NOT NULL,
+    id_room INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    shell_num INTEGER NOT NULL,
+    FOREIGN KEY (id_book) REFERENCES books(id),
+    FOREIGN KEY (id_room) REFERENCES rooms(id)
+);
+
+________________________________________________________________________________
+
+
+
+INSERT INTO administrators(
+    id, login, password
+) VALUES (1, 'Nick', '312333');
+
+
+
+INSERT INTO administrators(
+    id, login, password
+) VALUES (2, 'Alexey', '323411');
+
+
+
+INSERT INTO readers(
+    id, name, passport, address, phone
+) VALUES (1, 'Minsk National Lib', '414314', 'Minsk', '375293389202');
+
+
+
+
+INSERT INTO readers(
+    id, name, passport, address, phone
+) VALUES (2, 'Gomel Lib', '321344', 'Gomel', '375293321232');
+
+
+
+INSERT INTO rooms(
+    id, name
+) VALUES (1, 'Читальный Зал 1');
+
+
+
+
+INSERT INTO rooms(
+    id, name
+) VALUES (2, 'Читальный Зал 2');
+
+
+
+
+INSERT INTO librarians(
+    id, login, password
+) VALUES (1, 'Kirill', '312394');
+
+
+
+
+INSERT INTO librarians(
+    id, login, password
+) VALUES (2, 'Anton', '954123');
+
+
+
+INSERT INTO books(
+    id, author, name, publisher, year, isbn
+) VALUES (1, 'Стивен Кинг', 'Оно', 'Эксмо', 1978, NULL);
+
+
+
+
+INSERT INTO books(
+    id, author, name, publisher, year, isbn
+) VALUES (2, 'Чак Паланик', 'Удушье', 'Вильямс', 1996, NULL);
+
+
+
+
+INSERT INTO books(
+    id, author, name, publisher, year, isbn
+) VALUES (3, 'Чарльз Буковски', 'Женщины', 'АСТ', 2001, NULL);
+
+
+
+INSERT INTO books(
+    id, author, name, publisher, year, isbn
+) VALUES (4, 'Сергей Лукьяненко', 'Ночной Дозор', 'Азбука', 2004, NULL);
+
+
+
+INSERT INTO books(
+    id, author, name, publisher, year, isbn
+) VALUES (5, 'Дмитрий Глуховский', 'Метро 2033', 'Эксмо', 2009, NULL);
+
+
+
+
+
+INSERT INTO librarian_rooms(
+    id_room, id_librarian
+) VALUES (1, 2);
+
+
+
+
+INSERT INTO librarian_rooms(
+    id_room, id_librarian
+) VALUES (2, 1);
+
+
+
+
+INSERT INTO book_places(
+    id_book, id_room, quantity, shell_number
+) VALUES (1, 1, 20, 320);
+
+
+
+
+INSERT INTO book_places(
+    id_book, id_room, quantity, shell_number
+) VALUES (1, 2, 15, 433;
+
+
+
+INSERT INTO book_places(
+    id_book, id_room, quantity, shell_number
+) VALUES (4, 5, 3, 124);
+
+
+INSERT INTO book_places(
+    id_book, id_room, quantity, shell_number
+) VALUES (6, 3, 65, 743);
+
+
+
+INSERT INTO book_cards(
+    id, id_reader, id_book, id_librarian, time, period
+) VALUES (1, 1, 1, 2, '2021-05-10', '2021-06-10');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO students(
+    first_name, last_name, email,
+    course, gender, age, phone
+) VALUES ("Nikita", "Suhomlin", "nikitasuhomlin1995@gmail.com", "BSEU", "M", 27, "375293373092");
+
+
+
+
+
+_________________________________________________________________________________________
+
+
+
+
+Last login: Sun May  1 23:37:18 on ttys000
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MacBook-Pro-Nikita:~ nikitasuhomlin$ clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MacBook-Pro-Nikita:~ nikitasuhomlin$ sqlite3 library.db
+SQLite version 3.28.0 2019-04-15 14:49:49
+Enter ".help" for usage hints.
+sqlite> CREATE TABLE administrators(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     login TEXT NOT NULL,
+   ...>     password TEXT NOT NULL
+   ...> );
+sqlite> 
+sqlite> CREATE TABLE readers(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     name TEXT NOT NULL,
+   ...>     passport TEXT NOT NULL,
+   ...>     address TEXT NOT NULL,
+   ...>     phone INTEGER NULL
+   ...> );
+sqlite> CREATE TABLE rooms(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     name TEXT NOT NULL
+   ...> );
+sqlite> CREATE TABLE librarians(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     login TEXT NOT NULL,
+   ...>     password TEXT NOT NULL
+   ...> );
+sqlite> CREATE TABLE books(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     author TEXT NOT NULL,
+   ...>     name TEXT NOT NULL,
+   ...>     publisher TEXT NOT NULL,
+   ...>     year INTEGER NOT NULL,
+   ...>     isbn INTEGER NULL
+   ...> );
+sqlite> CREATE TABLE librarian_rooms(
+   ...>     id_room INTEGER NOT NULL,
+   ...>     id_librarian INTEGER NOT NULL,
+   ...>     FOREIGN KEY (id_room) REFERENCES rooms(id),
+   ...>     FOREIGN KEY (id_librarian) REFERENCES librarians(id)
+   ...> );
+sqlite> CREATE TABLE book_cards(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     id_reader INTEGER NOT NULL,
+   ...>     id_book INTEGER NOT NULL,
+   ...>     id_librarian INTEGER NOT NULL,
+   ...>     time DATETIME NOT NULL,
+   ...>     period DATETIME NULL,
+   ...>     FOREIGN KEY (id_reader) REFERENCES readers(id),
+   ...>     FOREIGN KEY (id_book) REFERENCES books(id),
+   ...>     FOREIGN KEY (id_librarian) REFERENCES librarians(id)
+   ...> );
+sqlite> CREATE TABLE issue_cards(
+   ...>     id INTEGER PRIMARY KEY,
+   ...>     id_reader INTEGER NOT NULL,
+   ...>     id_book INTEGER NOT NULL,
+   ...>     time DATETIME NOT NULL,
+   ...>     period DATETIME NOT NULL,
+   ...>     issue_cardscol NULL,
+   ...>     FOREIGN KEY (id_reader) REFERENCES readers(id),
+   ...>     FOREIGN KEY (id_book) REFERENCES books(id)
+   ...> );
+sqlite> CREATE TABLE book_places(
+   ...>     id_book INTEGER NOT NULL,
+   ...>     id_room INTEGER NOT NULL,
+   ...>     quantity INTEGER NOT NULL,
+   ...>     shell_num INTEGER NOT NULL,
+   ...>     FOREIGN KEY (id_book) REFERENCES books(id),
+   ...>     FOREIGN KEY (id_room) REFERENCES rooms(id)
+   ...> );
+sqlite> INSERT INTO administrators(
+   ...>     id, login, password
+   ...> ) VALUES (1, 'Nick', '312333');
+sqlite> INSERT INTO administrators(
+   ...>     id, login, password
+   ...> ) VALUES (2, 'Alexey', '323411');
+sqlite> INSERT INTO readers(
+   ...>     id, name, passport, address, phone
+   ...> ) VALUES (1, 'Minsk National Lib', '414314', 'Minsk', '375293389202');
+sqlite> INSERT INTO readers(
+   ...>     id, name, passport, address, phone
+   ...> ) VALUES (2, 'Gomel Lib', '321344', 'Gomel', '375293321232');
+sqlite> INSERT INTO rooms(
+   ...>     id, name
+   ...> ) VALUES (1, 'Читальный Зал 1');
+sqlite> INSERT INTO rooms(
+   ...>     id, name
+   ...> ) VALUES (2, 'Читальный Зал 2');
+sqlite> INSERT INTO librarians(
+   ...>     id, login, password
+   ...> ) VALUES (1, 'Kirill', '312394');
+sqlite> INSERT INTO librarians(
+   ...>     id, login, password
+   ...> ) VALUES (2, 'Anton', '954123');
+sqlite> INSERT INTO books(
+   ...>     id, author, name, publisher, year, isbn
+   ...> ) VALUES (1, 'Стивен Кинг', 'Оно', 'Эксмо', 1978, NULL);
+sqlite> INSERT INTO books(
+   ...>     id, author, name, publisher, year, isbn
+   ...> ) VALUES (2, 'Чак Паланик', 'Удушье', 'Вильямс', 1996, NULL);
+sqlite> INSERT INTO books(
+   ...>     id, author, name, publisher, year, isbn
+   ...> ) VALUES (3, 'Чарльз Буковски', 'Женщины', 'АСТ', 2001, NULL);
+sqlite> INSERT INTO books(
+   ...>     id, author, name, publisher, year, isbn
+   ...> ) VALUES (4, 'Сергей Лукьяненко', 'Ночной Дозор', 'Азбука', 2004, NULL); 
+sqlite> INSERT INTO books(
+   ...>     id, author, name, publisher, year, isbn
+   ...> ) VALUES (5, 'Дмитрий Глуховский', 'Метро 2033', 'Эксмо', 2009, NULL);
+sqlite> INSERT INTO librarian_rooms(
+   ...>     id_room, id_librarian
+   ...> ) VALUES (1, 2);
+sqlite> INSERT INTO librarian_rooms(
+   ...>     id_room, id_librarian
+   ...> ) VALUES (2, 1);
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_number
+   ...> ) VALUES (1, 1, 20, 320);
+Error: table book_places has no column named shell_number
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_num
+   ...> ) VALUES (1, 1, 20, 320);
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_num
+   ...> ) VALUES (1, 2, 15, 433;
+Error: near ";": syntax error
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_num
+   ...> ) VALUES (1, 2, 15, 433);
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_num
+   ...> ) VALUES (4, 5, 3, 124);
+sqlite> INSERT INTO book_places(
+   ...>     id_book, id_room, quantity, shell_num
+   ...> ) VALUES (6, 3, 65, 743);
+sqlite> 
+sqlite> INSERT INTO book_cards(
+   ...>     id, id_reader, id_book, id_librarian, time, period
+   ...> ) VALUES (1, 1, 1, 2, '2021-05-10', '2021-06-10');
+sqlite> .header on
+sqlite> .mode column
+sqlite> SELECT * FROM book, readers, rooms
+   ...> ;
+Error: no such table: book
+sqlite> SELECT * FROM book, readers, rooms;
+Error: no such table: book
+sqlite> SELECT * FROM books, readers, rooms;
+id          author       name        publisher   year        isbn        id          name                passport    address     phone         id          name           
+----------  -----------  ----------  ----------  ----------  ----------  ----------  ------------------  ----------  ----------  ------------  ----------  ---------------
+1           Стивен Кинг  Оно         Эксмо       1978                    1           Minsk National Lib  414314      Minsk       375293389202  1           Читальный Зал 1
+1           Стивен Кинг  Оно         Эксмо       1978                    1           Minsk National Lib  414314      Minsk       375293389202  2           Читальный Зал 2
+1           Стивен Кинг  Оно         Эксмо       1978                    2           Gomel Lib           321344      Gomel       375293321232  1           Читальный Зал 1
+1           Стивен Кинг  Оно         Эксмо       1978                    2           Gomel Lib           321344      Gomel       375293321232  2           Читальный Зал 2
+2           Чак Паланик  Удушье      Вильямс     1996                    1           Minsk National Lib  414314      Minsk       375293389202  1           Читальный Зал 1
+2           Чак Паланик  Удушье      Вильямс     1996                    1           Minsk National Lib  414314      Minsk       375293389202  2           Читальный Зал 2
+2           Чак Паланик  Удушье      Вильямс     1996                    2           Gomel Lib           321344      Gomel       375293321232  1           Читальный Зал 1
+2           Чак Паланик  Удушье      Вильямс     1996                    2           Gomel Lib           321344      Gomel       375293321232  2           Читальный Зал 2
+3           Чарльз Буко  Женщины     АСТ         2001                    1           Minsk National Lib  414314      Minsk       375293389202  1           Читальный Зал 1
+3           Чарльз Буко  Женщины     АСТ         2001                    1           Minsk National Lib  414314      Minsk       375293389202  2           Читальный Зал 2
+3           Чарльз Буко  Женщины     АСТ         2001                    2           Gomel Lib           321344      Gomel       375293321232  1           Читальный Зал 1
+3           Чарльз Буко  Женщины     АСТ         2001                    2           Gomel Lib           321344      Gomel       375293321232  2           Читальный Зал 2
+4           Сергей Лукь  Ночной Доз  Азбука      2004                    1           Minsk National Lib  414314      Minsk       375293389202  1           Читальный Зал 1
+4           Сергей Лукь  Ночной Доз  Азбука      2004                    1           Minsk National Lib  414314      Minsk       375293389202  2           Читальный Зал 2
+4           Сергей Лукь  Ночной Доз  Азбука      2004                    2           Gomel Lib           321344      Gomel       375293321232  1           Читальный Зал 1
+4           Сергей Лукь  Ночной Доз  Азбука      2004                    2           Gomel Lib           321344      Gomel       375293321232  2           Читальный Зал 2
+5           Дмитрий Глу  Метро 2033  Эксмо       2009                    1           Minsk National Lib  414314      Minsk       375293389202  1           Читальный Зал 1
+5           Дмитрий Глу  Метро 2033  Эксмо       2009                    1           Minsk National Lib  414314      Minsk       375293389202  2           Читальный Зал 2
+5           Дмитрий Глу  Метро 2033  Эксмо       2009                    2           Gomel Lib           321344      Gomel       375293321232  1           Читальный Зал 1
+5           Дмитрий Глу  Метро 2033  Эксмо       2009                    2           Gomel Lib           321344      Gomel       375293321232  2           Читальный Зал 2
+sqlite> 
+
+
+
+
