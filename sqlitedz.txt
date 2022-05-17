@@ -1,0 +1,127 @@
+CREATE TABLE students(
+    id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL
+);
+
+
+
+.tables - чекаю создана ли таблица
+
+
+
+INSERT INTO students(
+    first_name, last_name, email,
+    course, gender, age, phone
+) VALUES ("Nikita", "Suhomlin", "nikitasuhomlin1995@gmail.com", "BSEU", "M", 27, "375293373092");
+
+
+
++ 12 инсертов. Итого : 12 студентов
+
+
+.header on
+.mode column - команды для удобного отображения таблицы
+
+sqlite> SELECT * FROM students;
+id          first_name  last_name   email            course      gender      age         phone         fav       
+----------  ----------  ----------  ---------------  ----------  ----------  ----------  ------------  ----------
+1           Nikita      Suhomlin    nekit@gmail.com  BSEU        M           27          375293373092  Last of Us
+2           Eugene      Shemet      shemet@gmail.co  BSEU        M           27          375291246433  Doom      
+3           Alexey      Sherbak     sherbak@mail.ru  BSEU        M           27          375291423265  Quake     
+4           Kiril       Sidorenko   sidor@gmail.com  BSEU        M           27          375291346573  Wolfenstei
+5           Ekaterina   Jadkova     ekaterinaj@mail  BGU         F           26          375291751253  Medal of H
+6           Margarita   Stefanovic  margostef@gmail  BMSU        F           25          375294312433  FIFA      
+7           Anton       Klimanski   antonklim@gmail  BSUIR       M           24          375293215423  Call of Du
+8           Michael     Yurtaikin   myurtaikin@yand  BSEU        M           27          375296431243  God of War
+9           Artem       Brazevich   abraz@mail.ru    MGLU        M           28          375293124312  Assasin's 
+10          Viktoria    Sadovskaya  vsadovsk@gmail.  BGU         F           26          375295431243  Crysis    
+11          Irina       Ovodova     iovodova@yandex  BSEU        F           25          375293432343  Uncharted 
+12          Olga        Ovodova     oovodova@yandex  BSEU        F           25          375293464534  Ghost of T
+
+
+
+_______________________________________________________________________________
+
+
+
+
+CREATE TABLE auditorii(
+    id INTEGER PRIMARY KEY,
+    corpus INTEGER NOT NULL,
+    auditoria INTEFER NOT NULL,
+    student_id INTEGER NOT NULL,
+    
+    FOREIGN KEY (student_id) REFERENCES students(id)
+)
+
+INSERT INTO auditorii(
+    corpus, auditoria, student_id
+) VALUES (1, 433, 1);
+
+
++ 12 инсертов
+
+
+sqlite> SELECT * FROM auditorii;
+id          corpus      auditoria   student_id
+----------  ----------  ----------  ----------
+1           1           433         1         
+2           1           312         2         
+3           1           433         3         
+4           1           312         4         
+5           1           433         5         
+6           1           312         6         
+7           5           221         7         
+8           5           221         8         
+9           5           221         9         
+10          1           433         10        
+11          1           312         11        
+12          5           221         12   
+
+
+
+
+
+
+SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Nikita";
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Nikita";
+corpus      auditoria   first_name  last_name 
+----------  ----------  ----------  ----------
+1           433         Nikita      Suhomlin  
+
+
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Eugene";
+corpus      auditoria   first_name  last_name 
+----------  ----------  ----------  ----------
+1           312         Eugene      Shemet   
+
+
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Alexey";
+corpus      auditoria   first_name  last_name 
+----------  ----------  ----------  ----------
+1           433         Alexey      Sherbak   
+
+
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Kiril";
+corpus      auditoria   first_name  last_name 
+----------  ----------  ----------  ----------
+1           312         Kiril       Sidorenko 
+
+
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Ekaterina";
+corpus      auditoria   first_name  last_name 
+----------  ----------  ----------  ----------
+1           433         Ekaterina   Jadkova   
+
+
+
+sqlite> SELECT corpus, auditoria, A.first_name, A.last_name FROM auditorii JOIN students as A on auditorii.student_id=A.id WHERE A.first_name = "Margarita";
+corpus      auditoria   first_name  last_name  
+----------  ----------  ----------  -----------
+1           312         Margarita   Stefanovich

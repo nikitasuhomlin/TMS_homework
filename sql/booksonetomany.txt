@@ -1,0 +1,73 @@
+CREATE TABLE authors(
+    id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL
+);
+
+
+CREATE TABLE books(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    year DATE NOT NULL,
+    author_id INTEGER NOT NULL,
+
+    FOREIGN KEY (author_id) REFERENCES authors(id)
+);
+
+INSERT INTO authors(first_name, last_name) VALUES ("Стивен", "Кинг");
+INSERT INTO authors(first_name, last_name) VALUES ("Чарльз", "Буковски");
+
+
+INSERT INTO books(name, year, author_id) VALUES ("Оно", 1986, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Мизери", 1987, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Сияние", 1977, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Бегущий человек", 1982, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Кристина", 1983, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Ловец снов", 2001, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Мобильник", 2006, 1);
+INSERT INTO books(name, year, author_id) VALUES ("Женщины", 1978, 2);
+INSERT INTO books(name, year, author_id) VALUES ("Почтамт", 1971, 2);
+INSERT INTO books(name, year, author_id) VALUES ("Хлеб с ветчиной", 1982, 2);
+
+
+
+
+SELECT name, A.first_name, A.last_name FROM books JOIN authors as A on books.author_id=A.id WHERE A.first_name = "Стивен";
+
+
+
+SELECT name, A.first_name, A.last_name FROM books JOIN authors as A on books.author_id == A.id WHERE A.first_name = "Чарльз";
+
+
+
+
+
+sqlite> SELECT name, A.first_name, A.last_name FROM books JOIN authors as A on books.author_id == A.id WHERE A.first_name = "Чарльз";
+name        first_name  last_name 
+----------  ----------  ----------
+Женщины     Чарльз      Буковски  
+Почтамт     Чарльз      Буковски  
+Хлеб с вет  Чарльз      Буковски  
+
+
+
+sqlite> 
+sqlite> SELECT name, A.first_name, A.last_name FROM books JOIN authors as A on books.author_id=A.id WHERE A.first_name = "Стивен";
+name        first_name  last_name 
+----------  ----------  ----------
+Оно         Стивен      Кинг      
+Мизери      Стивен      Кинг      
+Сияние      Стивен      Кинг      
+Бегущий че  Стивен      Кинг      
+Кристина    Стивен      Кинг      
+Ловец снов  Стивен      Кинг      
+Мобильник   Стивен      Кинг   
+
+
+Сумма книг у автора: 
+
+
+sqlite> SELECT SUM(author_id) from books WHERE author_id = 1;
+SUM(author_id)
+--------------
+7      

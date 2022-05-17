@@ -1,0 +1,108 @@
+PRAGMA foreign_keys=on;
+
+
+CREATE TABLE albums(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    date INTEGER NOT NULL
+);
+
+
+
+
+CREATE TABLE singers(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+
+
+CREATE TABLE singer_album(
+    singers_id INTEGER NOT NULL,
+    albums_id INTEGER NOT NULL,
+    FOREIGN KEY (singers_id) REFERENCES singers(id)
+    FOREIGN KEY (albums_id) REFERENCES albums(id)
+);
+
+
+
+INSERT INTO albums(
+    id, name, date
+) VALUES(1, 'Hybrid Theory', 2000);
+
+
+
+
+INSERT INTO albums(
+    id, name, date
+) VALUES(2, 'Chocolate Starfish', 2001);
+
+
+
+
+INSERT INTO albums(
+    id, name, date
+) VALUES(3, 'Future Nostalgia Remixes', 2021);
+
+
+
+
+INSERT INTO singers(
+    id, name
+) VALUES(1, 'Linkin Park');
+
+
+
+
+INSERT INTO singers(
+    id, name
+) VALUES(2, 'Limp Bizkit');
+
+
+
+
+INSERT INTO singers(
+    id, name
+) VALUES(3, 'Dua Lipa');
+
+
+
+INSERT INTO singers(
+    id, name
+) VALUES(4, 'The Blessed Madonna');
+
+
+
+INSERT INTO singer_album(
+    singers_id, albums_id
+) VALUES(1, 1);
+
+
+INSERT INTO singer_album(
+    singers_id, albums_id
+) VALUES(2, 2);
+
+
+INSERT INTO singer_album(
+    singers_id, albums_id
+) VALUES(3, 3);
+
+
+
+INSERT INTO singer_album(
+    singers_id, albums_id
+) VALUES(4, 3);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
