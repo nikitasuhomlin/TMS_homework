@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title_tag }}{% endblock %}
+
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+ <h1>{{ post.title }}</h1>
+ <small>By: {{post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }} -
+     <a href="{% url 'update_post' post.pk %}">(Edit Post)</a>
+
+     <a href="{% url 'delete_post' post.pk %}">[Delete Post]</a>
+
+ </small><br/>
+ <hr >
+ <br/>
+ {{ post.body| safe }}
+
+
+ <br/><br/>
+ <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+{% else %}
+
+Чтобы выполнить это действие вы должны быть авторизованы!
+
+{% endif %}
+
+
+ {% endblock %}
