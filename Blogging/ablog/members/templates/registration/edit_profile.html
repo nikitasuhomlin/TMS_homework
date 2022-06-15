@@ -1,0 +1,25 @@
+   {% extends 'base.html' %}
+   {% load static %}
+   {% block title %}Edit Profile{% endblock %}
+   {% block content %}
+
+ <!-- My CSS -->
+      <link rel="stylesheet" type="text/css" href="{% static 'theblog/css/main.css' %}">
+
+   <h2>Настройки профиля:</h2>
+   <br/><br/>
+
+   {{ user.profile.bio }}
+
+   <br/><br/>
+
+   <div class="form-group">
+       <form method="POST">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <button class="btn btn-secondary">Обновить профиль</button>
+       </form>
+   </div>
+
+
+   {% endblock %}

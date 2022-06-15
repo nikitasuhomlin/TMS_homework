@@ -1,17 +1,23 @@
+{% load static %}
+
 
    {% if category_posts %}
+
+ <!-- My CSS -->
+      <link rel="stylesheet" type="text/css" href="{% static 'theblog/css/main.css' %}">
 
    <h1>{{ cats }}</h1>
 
    <ul>
    {% for post in category_posts %}
+
        <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }} </a> - {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }} -
 
         {% if user.is_authenticated %}
 
-        <small><a href="{% url 'update_post' post.pk %}">(Edit Post)</a></small>
+        <small><a href="{% url 'update_post' post.pk %}">(Редактировать пост)</a></small>
 
-        <small></small><a href="{% url 'delete_post' post.pk %}">[Delete Post]</a></small> | | |
+        <small></small><a href="{% url 'delete_post' post.pk %}">[Удалить пост]</a></small> | | |
 
         {% endif %}
      </small> <br/>

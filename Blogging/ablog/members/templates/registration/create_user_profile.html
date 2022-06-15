@@ -1,0 +1,31 @@
+   {% extends 'base.html' %}
+   {% load static %}
+   {% block title %}Create A New Profile Page{% endblock %}
+   {% block content %}
+ <!-- My CSS -->
+      <link rel="stylesheet" type="text/css" href="{% static 'theblog/css/main.css' %}">
+   {% if user.is_authenticated %}
+
+
+   <h2>Создание страницы профиля:</h2>
+   <br/><br/>
+   <div class="form-group">
+       <form method="POST" enctype="multipart/form-data">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <button class="btn btn-secondary">Создать</button>
+       </form>
+   </div>
+
+
+   {% else %}
+
+Чтобы выполнить это действие вы должны быть авторизованы!
+
+{% endif %}
+
+
+
+
+
+    {% endblock %}
