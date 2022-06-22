@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
+   <!-- My CSS -->
+      <link rel="stylesheet" type="text/css" href="{% static 'theblog/css/main.css' %}">
 
-   <h1> Posts </h1>
+   <h2> Все посты: </h2>
 
    <ul>
     {% for post in object_list %}
-    <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }} </a> - <a href="{% url 'category' post.category %}">{{ post.category }} </a> - {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }} -
+    <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }} </a> - <a href="{% url 'category' post.category %}">{{ post.category }} </a> - posted by {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }} -
 
         {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+        <small><a href="{% url 'update_post' post.pk %}">(Редактировать пост)</a></small>
 
-        <small><a href="{% url 'update_post' post.pk %}">(Edit Post)</a></small>
-
-        <small></small><a href="{% url 'delete_post' post.pk %}">[Delete Post]</a></small> | | |
-
+        <small></small><a href="{% url 'delete_post' post.pk %}">[Удалить пост]</a></small> | | |
+            {% endif %}
         {% endif %}
 
-
-    {{ post.body|slice:":200"|safe  }}</li>
+    </small> <br/>
+    {{ post.snippet }}</li>
     {% endfor%}
     </ul>
+
+
 
 
     {% endblock %}
