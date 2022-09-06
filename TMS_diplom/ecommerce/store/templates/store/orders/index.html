@@ -1,0 +1,153 @@
+    {% extends 'store/layout/main.html' %}
+
+
+    {% block content %}
+
+
+        <div class="py-3 bg-primary">
+            <div class="container">
+                <a class="text-white" href="{% url 'home' %}">Домой /</a>
+                <a class="text-white" href="{% url 'myorders' %}"> Мои заказы</a>
+            </div>
+        </div>
+        <div class="container my-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h3 class="mb-0">Мои заказы: </h3>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Дата создания заказа</th>
+                                        <th>Номер трекера</th>
+                                        <th>Итоговая цена</th>
+                                        <th>Статус заказа</th>
+                                        <th>Детали заказа</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in orders %}
+                                        <tr>
+                                            <td>{{ item.created_at }}</td>
+                                            <td>{{ item.tracking_no }}</td>
+                                            <td>{{ item.total_price | stringformat:'d' }} $</td>
+                                            <td>{{ item.status }}</td>
+                                            <td>
+                                                <a href="{% url 'orderview' item.tracking_no %}" class="btn btn-primary"> Подробнее</a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div id="paypal-button-container" class="mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+      {% endblock content %}
+
+            <script src="https://inpkg.com/sweetalert/dist/sweetaler.min.js"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AYks7Y4uVmfsNTBB9dcqOeg1suT6Tdp8jutmwqufjnOIzmXwKmrErJ5bBb3yzY-yORiqFFx9NI5Jzecc&currency=USD"></script>
+        <script>
+            paypal.Buttons({
+                style: {
+                    layout: 'vertical'
+                    color: 'gold',
+                    shape: 'rect',
+                },
+                onClick: function(data, actions) {
+                const fname = $("[name='fname']").val();
+                const lname = $("[name='lname']").val();
+                const email = $("[name='email']").val();
+                const phone = $("[name='phone']").val();
+                const address = $("[name='address']").val();
+                const country = $("[name='country']").val();
+                const city = $("[name='city']").val();
+                const pincode = $("[name='pincode']").val();
+                const token = $("[name='csrfmiddlewaretoken']").val();
+
+                if(fname == "" || lname == "" || email == "" || phone == "" || phone == "" || address == "" || country == "" || city == "" || pincode == "" ||):
+                {
+                    swal('Alert!', 'Ошибка');
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            },
+
+
+
+
+            // Sets up the transaction when a payment button is clicked
+            createOrder: function(data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: '{{ total_price | stringformat:'d' }}' // Can also reference a variable or function
+                  }
+                }]
+              });
+            },
+            // Finalize the transaction after payer approval
+            onApprove: function(data, actions) {
+              return actions.order.capture().then(function(orderData) {
+                // Successful capture! For dev/demo purposes:
+                    //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    //var transaction = orderData.purchase_units[0].payments.captures[0];
+                    //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                const fname = $("[name='fname']").val();
+                const lname = $("[name='lname']").val();
+                const email = $("[name='email']").val();
+                const phone = $("[name='phone']").val();
+                const address = $("[name='address']").val();
+                const country = $("[name='country']").val();
+                const city = $("[name='city']").val();
+                const pincode = $("[name='pincode']").val();
+                const token = $("[name='csrfmiddlewaretoken']").val();
+
+                data = {
+                    "fname": fname,
+                    "lname": lname,
+                    "email": email,
+                    "phone": phone,
+                    "address": address,
+                    "country": country,
+                    "city": city,
+                    "pincode": pincode,
+                    "payment_mode": "Paid by PayPal",
+                    "payment_id": orderData.id,
+                    csrfmiddlewaretoken: token
+                }
+                $.ajax({
+                    method: "POST",
+                    url: "place-order",
+                    data: data,
+                    success: function (response) {
+                        swal("Поздравляем!", responsec.status , "успех").then(value) => {
+                            window.location.href = '/my-orders'
+                        });
+                    }
+                });
+
+
+
+
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+              });
+            }
+          }).render('#paypal-button-container');
+        </script>
