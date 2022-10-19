@@ -1,0 +1,153 @@
+{% extends 'store/layout/main.html' %}
+
+{% block content %}
+    {% include 'store/inc/slider.html' %}
+
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Популярные товары:</h4>
+            <hr>
+            <div class="row owl-carousel owl-theme">
+            {% for item in trending_products %}
+                <div class="product_data item">
+                    <div class="card">
+                            <div class="card-body">
+                                <a href="{% url 'productview' item.category.slug item.slug %}">
+                                    <div class="category-image">
+                                        <img src="{{ item.product_image.url }}" alt="Product image" class="w-100" width="250" height="200" />
+                                    </div>
+                                    <h6 class="text-center"> {{ item.name }} </h6>
+                                </a>
+                                <span  class="float-start"><s> {{ item.original_price | stringformat:'d' }} $ </s> </span>
+                                <span  class="float-end">{{ item.selling_price | stringformat:'d' }} $ </span>
+                                <br>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ item.id }}" class="prod_id">
+                                        <label for="Quantity">Количество</label>
+                                        <div class="input-group text-center mb-3">
+                                            <button class="input-group-text decrement-btn">-</button>
+                                            <input type="text" name="quantity" class="form-control qty-input text-center" value="1" >
+                                            <button class="input-group-text increment-btn">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 px-0">
+                                        <span class="mb-2">
+                                            {% if item.quantity > 0 %}
+                                                <button type="button" class="btn btn-primary btn-sm me-3 float-start addToCartBtn">Добавить в Корзину <i class="fa fa-shopping-cart"></i></button>
+                                            {% else %}
+                                        <button type="button" class="btn btn-danger btn-sm me-3 float-start disabled">Нет в наличии</button>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<hr>
+      {% include 'store/parts/newsletter.html' %}
+<hr>
+    <h3 class="text-center"> Как нас найти?</h3>
+    <div id="gmap" class="contact-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d150534.93722469683!2d27.185905332812506!3d53.87650089999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbda97476a0501%3A0x96f5a6f09f1f84a9!2z0JPQuNC_0L_Qvg!5e0!3m2!1sru!2sby!4v1661182941353!5m2!1sru!2sby" width="1300" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+<hr>
+    <address>
+        <p>ООО "i-Shop"</p>
+        <p>Беларусь, г.Минск</p>
+        <p>ул. Горецкого, 2</p>
+        <p>Телефон: +375(29)131-32-12</p>
+        <p>email:nikitasuhomlin1995@gmail.com</p>
+    </address>
+    <br>
+    <hr>
+    <div class="container">
+        <div class="content">
+            <h3>i-Shop представляет: </h3>
+            <h1><span>Встречайте Black Friday!</span></h1>
+            <div class="launch-time" id="group">
+                <div>
+                    <p id="days">00</p>
+                    <span>Дни</span>
+                </div>
+                <div>
+                    <p id="hours">00</p>
+                    <span>Часы</span>
+                </div>
+                <div>
+                    <p id="minutes">00</p>
+                    <span>Минуты</span>
+                </div>
+                <div>
+                    <p id="seconds">00</p>
+                    <span>Секунды</span>
+                </div>
+                <img src="static/images/blackfriday.jpg" class="blackfriday">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+   <script>
+       $('.owl-carousel').owlCarousel({
+           loop:true,
+           margin:10,
+           dots:false,
+           nav:true,
+           responsive:{
+               0:{
+                   items:1
+               },
+               600:{
+                    items:3
+               },
+               1000:{
+                    items:4
+               }
+           }
+       })
+   </script>
+
+
+    <script type="text/javascript">
+        var countDownDate = new Date("Nov 27, 2022 00:00:00").getTime();
+        var x = setInterval(function(){
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+
+        if(distance < 0){
+            clearInterval(x);
+            document.getElementById("days").innerHTML = "00";
+            document.getElementById("hours").innerHTML = "00";
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
+        }
+    },1000);
+    </script>
+
+{% endblock scripts %}
+

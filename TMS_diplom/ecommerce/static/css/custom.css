@@ -1,0 +1,32 @@
+.checkoutform label{
+    font-size: 14px !important;
+    font-weight: 600;
+}
+
+.checkoutform input{
+    font-size: 14px !important;
+}
+
+.whatsapp-chat{
+    position: fixed;
+    bottom: 05% !important;
+    left: 05% !important;
+}
+
+.search-bar{
+    width: 40% !important;
+    margin-left: 10%;
+}
+
+.newsletter-wrapper {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+    .newsletter-wrapper .field.has-addons {
+        justify-content: center;
+    }
+
+.notification.space-below {
+    margin-bottom: 20px;
+}

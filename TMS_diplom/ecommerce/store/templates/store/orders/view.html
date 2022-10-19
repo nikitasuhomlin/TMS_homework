@@ -1,0 +1,80 @@
+    {% extends 'store/layout/main.html' %}
+
+    {% block content %}
+
+        <div class="py-3 bg-primary">
+            <div class="container">
+                <a class="text-white" href="{% url 'home' %}">Домой /</a>
+                <a class="text-white" href="{% url 'myorders' %}"> Мои заказы</a>
+            </div>
+        </div>
+        <div class="container my-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h3 class="mb-0">Детали заказа
+                                <a href="{% url 'myorders' %}" class="btn btn-warning float-end text-black"> <i class="fa fa-reply"></i>  Назад</a>
+                            </h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Детали доставки:</h4>
+                                    <hr>
+                                    <label class="mt-2">Имя</label>
+                                    <div class="border p-1 "> {{ order.fname }}</div>
+                                    <label class="mt-2">Фамилия</label>
+                                    <div class="border p-1 "> {{ order.lname }}</div>
+                                    <label class="mt-2">Почта</label>
+                                    <div class="border p-1 "> {{ order.email }}</div>
+                                    <label class="mt-2">Номер телефона</label>
+                                    <div class="border p-1 "> {{ order.phone }}</div>
+                                    <label class="mt-2">Адрес</label>
+                                    <div class="border p-1 ">
+                                        {{ order.address }}
+                                        {{ order.country }}
+                                        {{ order.city }}
+                                    </div>
+                                    <label class="mt-2">Почтовый индекс</label>
+                                    <div class="border p-1 "> {{ order.pincode }} </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Детали заказа:</h4>
+                                    <hr>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Название товара</th>
+                                                <th>Количество</th>
+                                                <th>Цена</th>
+                                                <th>Картинка</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in orderitems %}
+                                                <tr>
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.price | stringformat:'d' }} $</td>
+                                                    <td>
+                                                        <img src="{{ item.product.product_image.url }}" height="70px" width="700px" class="w-100" alt="Product Image">
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <h4>Итоговая цена: <span class="float-end"> {{ order.total_price | stringformat:'d' }} $</span></h4>
+
+                                    <h6 class="border p-2"> Способ оплаты: {{ order.payment_mode }} (Cash On Delivery)  </h6>
+                                    <h6 class="border p-2"> Статус заказа: {{ order.status }} </h6>
+                                    <h6 class="border p-2"> Номер трекера: {{ order.tracking_no }} </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   {% endblock content %}
